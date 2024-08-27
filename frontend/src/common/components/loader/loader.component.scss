@@ -1,0 +1,68 @@
+.loading-container {
+  text-align: center;
+}
+
+.loading-button {
+  background: none;
+  border: none;
+  border-radius: 50px;
+  color: var(--white);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+}
+
+.loading-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.loading-button:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.loading-text {
+  display: inline-block;
+}
+
+.loading-dots {
+  display: inline-block;
+}
+
+.dot {
+  animation: blink 1.5s infinite step-start;
+  opacity: 0;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

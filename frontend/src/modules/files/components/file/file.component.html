@@ -1,0 +1,26 @@
+<div
+  class="file "
+>
+  <div class="file__info">
+    <span
+      class="file__name"
+      [innerHTML]="file.filename | letterSelector: searchLine"
+    ></span>
+
+    <span class="file__size">{{fileSize}}</span>
+  </div>
+  <div class="file__buttons">
+    @if (isLoading) {
+      <app-loader></app-loader>
+    } @else {
+      <button
+        class="button-download"
+        (click)="download.next()"
+      >Скачать</button>
+      <button
+        class="button-delete"
+        (click)="delete.next()"
+      >Удалить</button>
+    }
+  </div>
+</div>

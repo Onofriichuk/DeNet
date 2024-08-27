@@ -1,0 +1,35 @@
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  padding: 5px 0;
+  border: none;
+  border-bottom: 1px solid grey;
+  background: none;
+  color: white;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-bottom: 1px solid grey;
+}
+
+label {
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  font-size: 14px;
+  color: grey;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+}
+
+label.focused {
+  bottom: 25px;
+  font-size: 10px;
+  color: grey;
+}

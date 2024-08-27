@@ -1,0 +1,34 @@
+.input-container {
+  position: relative;
+  width: 200px;
+}
+
+input {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 2px solid var(--yellow);
+  background: none;
+  color: var(--white);
+  font-size: 16px;
+  outline: none;
+}
+
+input:focus {
+  border-bottom: 2px solid var(--yellow);
+}
+
+label {
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  font-size: 16px;
+  color: var(--yellow);
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+}
+
+label.focused {
+  bottom: 30px;
+  font-size: 12px;
+}

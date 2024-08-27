@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.input {
+  width: 200px;
+}
+
+.button-login {
+  padding: 5px 10px;
+  border-radius: 50px;
+  background: var(--yellow);
+  border: none;
+  cursor: pointer;
+
+  transition: transform 0.2s linear;
+
+  &:hover {
+    transform: scale(1.03)
+  }
+
+  &:disabled {
+    background: var(--yellow-dark);
+    transform: scale(1.0) !important;
+    cursor: not-allowed;
+  }
+
+  & > * {
+    color: var(--background);
+  }
+}
+
+.button-registration {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--yellow);
+
+  &:hover {
+    border-bottom: 1px solid var(--yellow);
+  }
+}

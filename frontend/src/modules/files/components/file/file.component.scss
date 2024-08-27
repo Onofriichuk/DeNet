@@ -1,0 +1,54 @@
+.file {
+  min-height: 25px;
+  display: flex;
+  align-items: center;
+  border: var(--green) solid 1px;
+  border-radius: 3px;
+  padding: 5px;
+  gap: 8px;
+
+  justify-content: space-between;
+
+  &__info {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__name {
+    color: var(--green);
+  }
+
+  &__size {
+    color: var(--orange);
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap:  5px;
+  }
+}
+
+.button-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--red);
+
+  &:hover {
+    border-bottom: 1px solid var(--red);
+  }
+}
+
+.button-download {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--yellow);
+
+  &:hover {
+    border-bottom: 1px solid var(--yellow);
+  }
+}

@@ -1,0 +1,15 @@
+<div class="input-container">
+  <input
+    type="text"
+    [(ngModel)]="value"
+    (ngModelChange)="inputChange.next(value)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    id="input"
+  />
+  <label [class.focused]="isFocused || value">{{ placeholder }}</label>
+</div>
+
+@if (error) {
+  <span [style.color]="'red'">{{error}}</span>
+}

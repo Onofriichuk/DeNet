@@ -1,0 +1,31 @@
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 24px;
+}
+
+.form {
+  height: 150px;
+
+  transform: scale(0);
+  opacity: 0;
+
+  animation: appear 0.3s ease-in-out forwards;
+}
+
+@keyframes appear {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+}

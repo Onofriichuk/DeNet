@@ -1,0 +1,11 @@
+<div class="input-container">
+  <input
+    type="text"
+    [(ngModel)]="value"
+    (input)="search.next(value)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    id="search-input"
+  />
+  <label [class.focused]="isFocused || value">Поиск по файлам</label>
+</div>

@@ -1,0 +1,26 @@
+<app-input
+  class="input"
+  placeholder="Логин"
+  [error]="loginError$.getValue()"
+  (inputChange)="login$.next($event)"
+></app-input>
+
+<app-input
+  class="input"
+  placeholder="Пароль"
+  [error]="passwordError$.getValue()"
+  (inputChange)="password$.next($event)"
+></app-input>
+
+<button
+  class="button-login"
+  [disabled]="isDisabled()"
+  (click)="handleClickLogin()"
+>Войти</button>
+
+<button
+  class="button-registration"
+  (click)="switchOnRegistration.next()"
+>Регистрация</button>
+
+

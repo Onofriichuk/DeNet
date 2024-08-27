@@ -1,0 +1,49 @@
+<div class="header">
+  <app-logo></app-logo>
+
+  <div class="header__buttons">
+    @if (isUploadingFiles) {
+      <app-loader></app-loader>
+    } @else {
+      <button
+        class="button-upload"
+        (click)="onUploadButtonClick()"
+      >
+        Загрузить файл
+      </button>
+    }
+
+    <input
+      type="file"
+      #fileInput
+      multiple="multiple"
+      (change)="uploadFiles($event)"
+      style="display: none;"
+    />
+
+    <button
+      class="button-exit"
+      (click)="exit()"
+    >Выйти</button>
+  </div>
+</div>
+
+<app-search
+  class="search"
+  (search)="searchLine$.next($event)"
+></app-search>
+
+<div class="container">
+  <div class="files">
+    @for (file of filteredFiles$.getValue(); track file.id) {
+      <app-file
+        class="files__item"
+        [file]="file"
+        [isLoading]="isDownloadingFile[file.id]"
+        [searchLine]="searchLine$.getValue()"
+        (delete)="deleteFile(file)"
+        (download)="downloadFile(file)"
+      ></app-file>
+    }
+  </div>
+</div>

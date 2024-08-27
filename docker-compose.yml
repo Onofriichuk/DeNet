@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: nestjs-docker
+    command: npm start --watch
+#    ports:
+#      - "3000:3000"
+    environment:
+      URL_DB: 'postgres://denet:42@postgres:5432/denet'
+    volumes:
+      - ./backend/src:/usr/src/app/backend/src
+      - ./file-storage:/usr/src/app/backend/file-storage
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - realworld-docker-network
+
+  frontend:
+    build: ./frontend
+    container_name: angular-docker
+#    ports:
+#      - "4200:4200"
+    restart: unless-stopped
+    command: npm start
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./frontend/src:/usr/src/app/frontend/src
+    networks:
+      - realworld-docker-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-docker
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - postgres
+      - backend
+    networks:
+      - realworld-docker-network
+
+  postgres:
+    image: postgres:10.4
+    ports:
+      - "35000:5432"
+    environment:
+      POSTGRES_USER: denet
+      POSTGRES_PASSWORD: '42'
+      POSTGRES_DB: denet
+    networks:
+      - realworld-docker-network
+
+networks:
+  realworld-docker-network:
+    driver: bridge

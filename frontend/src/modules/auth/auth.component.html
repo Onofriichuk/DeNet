@@ -1,0 +1,15 @@
+<app-logo class="logo"></app-logo>
+
+@if (activeForm === 'login') {
+  <app-login-form
+    class="form"
+    (login)="login($event)"
+    (switchOnRegistration)="switchActiveForm()"
+  ></app-login-form>
+} @else {
+  <app-registration-form
+    class="form"
+    (registration)="registration($event)"
+    (switchOnLogin)="switchActiveForm()"
+  ></app-registration-form>
+}
