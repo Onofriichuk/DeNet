@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d0706528-d0af-4973-b457-9283c9e233e1",
+		"_postman_id": "b8f088d0-2804-48d3-975f-da779e197966",
 		"name": "denet",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10046871",
-		"_collection_link": "https://lively-rocket-490976.postman.co/workspace/Team-Workspace~68d7b706-f93d-42f7-86c2-1e429f144aef/collection/10046871-d0706528-d0af-4973-b457-9283c9e233e1?action=share&source=collection_link&creator=10046871"
+		"_collection_link": "https://lively-rocket-490976.postman.co/workspace/Team-Workspace~68d7b706-f93d-42f7-86c2-1e429f144aef/collection/10046871-b8f088d0-2804-48d3-975f-da779e197966?action=share&source=collection_link&creator=10046871"
 	},
 	"item": [
 		{
@@ -108,7 +108,7 @@
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
-									"pm.environment.set(\"fileId\", jsonData['id']);"
+									"pm.environment.set(\"fileId\", jsonData[0]['id']);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -139,7 +139,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/marat/Pictures/Screenshots/Снимок экрана 2024-08-25 211044.png"
+									"src": "/C:/Users/marat/Documents/DeNet/postman/denet.postman_collection.json"
 								}
 							]
 						},
