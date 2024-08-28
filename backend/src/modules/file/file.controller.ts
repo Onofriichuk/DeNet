@@ -27,7 +27,7 @@ export class FileController {
         @Param('id') id: number,
         @Response() res: express.Response
     ): Promise<void> {
-        await this.download(user, id, res);
+        await this._service.download(user, id, res);
     }
 
     @Post('/upload')

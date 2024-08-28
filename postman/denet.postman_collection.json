@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "b8f088d0-2804-48d3-975f-da779e197966",
+		"_postman_id": "9a905a71-d2c8-4b9c-a385-7b7db1a7cd63",
 		"name": "denet",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10046871",
-		"_collection_link": "https://lively-rocket-490976.postman.co/workspace/Team-Workspace~68d7b706-f93d-42f7-86c2-1e429f144aef/collection/10046871-b8f088d0-2804-48d3-975f-da779e197966?action=share&source=collection_link&creator=10046871"
+		"_collection_link": "https://lively-rocket-490976.postman.co/workspace/Team-Workspace~68d7b706-f93d-42f7-86c2-1e429f144aef/collection/10046871-9a905a71-d2c8-4b9c-a385-7b7db1a7cd63?action=share&source=collection_link&creator=10046871"
 	},
 	"item": [
 		{
@@ -32,7 +32,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"login\": \"ddd3d@gmail.ccom\",\n    \"password\": \"1234567\"\n}",
+							"raw": "{\n    \"login\": \"11111\",\n    \"password\": \"11111\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -74,7 +74,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"login\": \"ddd3d@gmail.ccom\",\n    \"password\": \"1234567\"\n}",
+							"raw": "{\n    \"login\": \"1111\",\n    \"password\": \"11111\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

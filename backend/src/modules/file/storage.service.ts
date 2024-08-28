@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {FileEntity} from "./file.entity";
-import fs from "fs";
+import * as fs from "fs";
 import * as path from "path";
 import { v4 as createUUIDv4 } from 'uuid';
 import formidable from 'formidable';
@@ -50,10 +50,9 @@ export class StorageService {
     }
 
     public async  deleteEmptyDirectories(directory: string): Promise<void> {
-        const isFileExists = await this.checkIfExists(directory);
         const isRootDirectory = directory.split('/').at(-1) === 'file-storage';
 
-        if (isFileExists || isRootDirectory)  {
+        if (isRootDirectory)  {
             return;
         }
 
