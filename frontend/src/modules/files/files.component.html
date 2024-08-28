@@ -39,7 +39,7 @@
       <app-file
         class="files__item"
         [file]="file"
-        [isLoading]="isDownloadingFile[file.id]"
+        [isLoading]="isLoadingFile[file.id]"
         [searchLine]="searchLine$.getValue()"
         (delete)="deleteFile(file)"
         (download)="downloadFile(file)"
