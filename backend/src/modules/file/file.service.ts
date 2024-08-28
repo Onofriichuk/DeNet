@@ -4,29 +4,59 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import {Repository} from "typeorm";
-import {InjectRepository} from "@nestjs/typeorm";
 import {FileEntity} from "./file.entity";
 import {FileResponseDto} from "./dto/file-response.dto";
 import {UserEntity} from "../user/user.entity";
 import * as fs from "fs";
-import * as path from "path";
+import express from "express";
+import {InjectRepository} from "@nestjs/typeorm";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class FileService {
     constructor(
         @InjectRepository(FileEntity)
-        private _repository: Repository<FileEntity>
+        private _repository: Repository<FileEntity>,
+        private _storageService: StorageService,
     ) {}
 
-    public async uploadFiles(user: UserEntity, files: Express.Multer.File[]): Promise<FileResponseDto[]> {
-       const fileEntities = files.map(file => {
+    public async download(user: UserEntity, fileId: number, res: express.Response): Promise<void> {
+        const file = await this.getFileById(user, fileId);
+
+        if (!file) {
+            throw new HttpException('File not found', HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            const encodedFilename = encodeURIComponent(file.filename);
+
+            res.set({
+                'Content-Type': file.mimetype,
+                'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}`,
+                'Content-Length': file.size,
+            });
+
+            this._storageService.getFileStream(file.path).pipe(res);
+        } catch (err) {
+            throw new HttpException('Error!', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public async uploadFiles(req: express.Request, user: UserEntity): Promise<FileResponseDto[]> {
+        if (!req.headers['content-type']?.includes('multipart/form-data')) {
+            throw new HttpException('Invalid content type', HttpStatus.BAD_REQUEST);
+        }
+
+        const files = await this._storageService.saveFilesViaStream(req);
+
+        const fileEntities = files.map(file => {
            const entity = new FileEntity();
 
            Object.assign(entity, file);
            entity.user = user;
 
            return entity;
-       })
+       });
 
         await Promise.all(fileEntities.map(entity => entity.save()))
 
@@ -39,12 +69,13 @@ export class FileService {
             user: {  id: userId }
         });
 
+        if (!file) {
+            throw new HttpException('File not found', HttpStatus.NOT_FOUND);
+        }
+
         return file?.getResponse();
     }
 
-    public getFileStream(filepath: string) {
-        return fs.createReadStream(filepath);
-    }
 
     public async getFiles({ id: userId }: UserEntity): Promise<FileResponseDto[]> {
         const files = await this._repository.find({
@@ -66,35 +97,11 @@ export class FileService {
 
         try {
             await this._repository.delete(id);
-            await this.deleteFile(file.path);
+            await this._storageService.deleteFile(file.path);
 
             return true;
         } catch (error) {
             return false;
-        }
-    }
-
-    private async deleteFile(filePath: string): Promise<void> {
-        if (!fs.existsSync(filePath)) {
-            throw new HttpException('File not found', HttpStatus.NOT_FOUND);
-        }
-
-        fs.unlinkSync(filePath);
-
-        this.deleteEmptyDirectories(path.dirname(filePath));
-    }
-
-    private deleteEmptyDirectories(directory: string): void {
-        if (!fs.existsSync(directory)) {
-            return;
-        }
-
-        const files = fs.readdirSync(directory);
-
-        if (files.length === 0) {
-            fs.rmdirSync(directory);
-
-            this.deleteEmptyDirectories(path.dirname(directory));
         }
     }
 }

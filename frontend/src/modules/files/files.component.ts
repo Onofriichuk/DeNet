@@ -32,7 +32,8 @@ export class FilesComponent implements OnInit {
   public filteredFiles$: BehaviorSubject<IFile[]>;
 
   public isUploadingFiles: boolean;
-  public isDownloadingFile: Record<string, boolean>;
+  public isLoadingFile: Record<string, boolean>;
+  public enoughSizeForLoading = 100000000;
 
   constructor(
     private _fileRepository: FileRepository,
@@ -43,19 +44,12 @@ export class FilesComponent implements OnInit {
     this.filteredFiles$ = new BehaviorSubject<IFile[]>([]);
     this.searchLine$ = new BehaviorSubject<string>('');
     this.isUploadingFiles = false;
-    this.isDownloadingFile = {};
+    this.isLoadingFile = {};
   }
 
   public async ngOnInit(): Promise<void> {
     this.initFilteringFilesByName();
     await this.initFiles();
-  }
-
-  private async initFiles(): Promise<void> {
-    const files$ = this._fileRepository.pullFiles();
-    const files = await firstValueFrom(files$);
-
-    this.files$.next(files);
   }
 
   private initFilteringFilesByName(): void {
@@ -75,19 +69,28 @@ export class FilesComponent implements OnInit {
       });
   }
 
+  private async initFiles(): Promise<void> {
+    const files$ = this._fileRepository.pullFiles();
+    const files = await firstValueFrom(files$);
+
+    this.files$.next(files);
+  }
+
   public exit(): void {
     this._cookieService.set('x-access-token', '');
     this._router.navigate(['/auth']);
   }
 
-  public async deleteFile({ id: fileId }: IFile): Promise<void> {
+  public async deleteFile(file: IFile): Promise<void> {
+    this.setLoadingForFile(file, true);
+
     try {
-      const isDeleted$ = this._fileRepository.deleteFileById(fileId);
+      const isDeleted$ = this._fileRepository.deleteFileById(file.id);
       const isDeleted = await firstValueFrom(isDeleted$);
 
       if (isDeleted) {
         const files = this.files$.getValue();
-        const filteredFiles = files.filter(({ id }) => id !== fileId);
+        const filteredFiles = files.filter(({ id }) => id !== file.id);
 
         this.files$.next(filteredFiles);
       }
@@ -96,10 +99,8 @@ export class FilesComponent implements OnInit {
         alert(error.error.message);
       }
     }
-  }
 
-  public onUploadButtonClick(): void {
-    this.fileInput.nativeElement.click(); // Открываем проводник
+    this.setLoadingForFile(file, false);
   }
 
   public async uploadFiles(event: any): Promise<void> {
@@ -126,21 +127,31 @@ export class FilesComponent implements OnInit {
     this.isUploadingFiles = false;
   }
 
-  public async downloadFile({ id: fileId, filename }: IFile): Promise<void> {
-    this.isDownloadingFile[fileId] = true;
+  public async downloadFile(file: IFile): Promise<void> {
+    this.setLoadingForFile(file, true);
 
     try {
-      const blob$ = this._fileRepository.downloadFileById(fileId);
+      const blob$ = this._fileRepository.downloadFileById(file.id);
       const blob = await firstValueFrom(blob$);
 
-      this.downloadBlob(filename, blob);
+      this.downloadBlob(file.filename, blob);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
         alert(error.error.message);
       }
     }
 
-    this.isDownloadingFile[fileId] = false;
+    this.setLoadingForFile(file, false);
+  }
+
+  public onUploadButtonClick(): void {
+    this.fileInput.nativeElement.click(); // Открываем проводник
+  }
+
+  private setLoadingForFile(file: IFile, value: boolean): void {
+    if (file.size > this.enoughSizeForLoading) {
+      this.isLoadingFile[file.id] = value;
+    }
   }
 
   private downloadBlob(filename: string, blob: Blob): void {

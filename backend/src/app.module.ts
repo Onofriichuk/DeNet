@@ -6,6 +6,7 @@ import {AuthMiddleware} from "./modules/auth/middlewares/auth.middleware";
 import {AuthModule} from "./modules/auth/auth.module";
 import {UserModule} from "./modules/user/user.module";
 import {ormconfig} from "./configs/typeorm.config";
+import { json, urlencoded } from 'express';
 import {TypeOrmModule} from "@nestjs/typeorm";
 
 @Module({
@@ -24,7 +25,9 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-        .apply(AuthMiddleware)
+        .apply(
+            AuthMiddleware
+        )
         .exclude(
             { path: '/login', method: RequestMethod.POST },
             { path: '/registration', method: RequestMethod.DELETE },

@@ -22,7 +22,7 @@ export class FileEntity extends BaseEntity {
     @Column()
     mimetype: string;
 
-    @Column()
+    @Column('bigint')
     size: number;
 
     @ManyToOne(() => UserEntity, (u: UserEntity) => u.files)

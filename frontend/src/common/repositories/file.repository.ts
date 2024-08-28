@@ -31,7 +31,7 @@ export class FileRepository {
     return this._http.get(
       `${SERVER_API_URL}/files/${id}/download`,
       {
-        responseType: 'blob', // Указание типа ответа как Blob для работы с файлами
+        responseType: 'blob',
         observe: 'body',
       }
     );
