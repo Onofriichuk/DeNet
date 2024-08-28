@@ -4,7 +4,7 @@ import fs from "fs";
 import * as path from "path";
 import { v4 as createUUIDv4 } from 'uuid';
 import formidable from 'formidable';
-import fsPromises from "fs/promises";
+import * as fsPromises from "fs/promises";
 
 @Injectable()
 export class StorageService {
