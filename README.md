@@ -1,12 +1,29 @@
-Команда для запуска проекта: docker-compose up
 
-Сайт будет запущен здесь: http://localhost:4200
+# DeNet
+
+Клиент-сервеное приложение для хранилища данных, в котором пользователи могут загружать данные на сервер.
+
+
+## Запуск
+
+Чтобы запустить проект, введите команду:
+
+```bash
+  docker-compose up
+```
+
+## Документация
+
+Фронт написан на angular 18: http://localhost:4200
+
+Бекенд написан на nestJs 10: http://localhost:3000
 
 Postman коллекция: ./postman/denet.postman_collection.json
-Бекенд доступен по http://localhost:3000
+
 Swagger доступен по http://localhost:3000/swagger
+## Скриншоты
 
-Файлы будут сохраняться в ./file-storage
+![Image alt](https://github.com/Onofriichuk/DeNet/raw/main/screenshots/auth.png)
 
-Фронт написан на angular 18
-Бекенд написан на nestJs 10
+![Image alt](https://github.com/Onofriichuk/DeNet/raw/main/screenshots/files.png)
+
